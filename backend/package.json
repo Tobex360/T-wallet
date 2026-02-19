@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend for Twallet site",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon start server.js",
+    "start": "node server.js"
+  },
+  "author": "Echefu Tobechukwu",
+  "license": "ISC",
+  "dependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^6.2.1",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.1.5"
+  }
+}

@@ -1,0 +1,16 @@
+/* @import "tailwindcss";
+
+@theme {
+    --color-bgcolor: linear-gradient(180deg, rgba(112, 109, 84, 1) 14%, rgba(214, 208, 160, 1) 100%)
+} */
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+@import "tailwindcss";
+
+/* @theme {
+  --color-regal-blue: #243c5a; 
+} */
+
