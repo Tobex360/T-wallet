@@ -11,8 +11,8 @@ function Navebar() {
         <div><Link to='/'><img src={Logo} alt="" /></Link></div>
         {/* Desktop nav */}
         {(<div className='hidden sm:flex gap-3 text-white text-xl text-bold mr-4'>
-          <Link className='fl'>Home</Link>
-          <Link className='fl'>Features</Link>
+          <Link to="/" className='fl'>Home</Link>
+          <Link to="/features" className='fl'>Features</Link>
           <Link className='fl'>Store</Link>
           <Link className='fl'><ShoppingCartOutlined /></Link>
         </div>)}
