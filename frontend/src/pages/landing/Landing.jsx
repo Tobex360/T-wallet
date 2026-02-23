@@ -30,8 +30,8 @@ function Landing() {
           <div><img src={line} alt="" /></div>
           <div>Premium wallets crafted for durability, elegance, and everyday use.</div>
           <div className='flex gap-3 '>
-            <Link><button className=' bg-slate-500 text-white px-8 py-3 rounded font-bold hover:bg-slate-700'>Buy Now</button></Link>
-            <Link><button className=' bg-slate-500 text-white px-8 py-3 rounded font-bold hover:bg-slate-700'>Learn more</button></Link>
+            <Link to='/ulogin'><button className=' bg-slate-500 text-white px-8 py-3 rounded font-bold hover:bg-slate-700'>Sign in</button></Link>
+            <Link to= '/uregister'><button className=' bg-slate-500 text-white px-8 py-3 rounded font-bold hover:bg-slate-700'>Register</button></Link>
           </div>
         </div>
 
