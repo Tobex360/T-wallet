@@ -1,6 +1,7 @@
 import React from 'react';
 import './login.css';
 import { Input, Button, Form, message, Card, Typography, Row, Col, Divider } from 'antd';
+import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom';
 import bg from "../../assets/bg.jpg"
 import { 
@@ -15,6 +16,27 @@ import {
 const { Title, Text } = Typography;
 
 function Uregister() {
+  const navigate = useNavigate();
+
+  const handleSubmit = async(values)=>{
+    try{
+      const data = {
+        firstname: values.firstname,
+        lastname: values.lastname,
+        username: values.username,
+        email: values.email,
+        phonenumber: values.phonenumber,
+        password: values.password,
+      };
+      const response = await axios.post(`http://localhost:5000/user/uregister`, data);
+
+      message.success("you are succesfully registered");
+      navigate('/ulogin')
+    } catch(err){
+      console.log(err);
+      message.error("Registration Failed");
+    }
+  };
   return (
     <>
     <div className="login-wrapper" style={{
@@ -34,7 +56,7 @@ function Uregister() {
           <Text type="secondary">Join us to start shopping today</Text>
         </div>
 
-        <Form layout="vertical" size="large">
+        <Form onFinish={handleSubmit} layout="vertical" size="large">
           <Row gutter={12}>
             <Col span={12}>
               <Form.Item name="firstname" rules={[{ required: true, message: 'Required' }]}>

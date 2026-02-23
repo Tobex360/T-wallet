@@ -13,7 +13,7 @@ function Navebar() {
         {(<div className='hidden sm:flex gap-3 text-white text-xl text-bold mr-4'>
           <Link to="/" className='fl'>Home</Link>
           <Link to="/features" className='fl'>Features</Link>
-          <Link className='fl'>Store</Link>
+          <Link to='/store' className='fl'>Store</Link>
           <Link className='fl'><ShoppingCartOutlined /></Link>
         </div>)}
           <button 

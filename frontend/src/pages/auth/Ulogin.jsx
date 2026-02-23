@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './login.css'
+import axios from 'axios'
 import { Input, Button, Form, message, Card, Typography, Divider } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import bg from "../../assets/bg.jpg"
@@ -8,6 +9,31 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 const { Title, Text } = Typography;
 
 function Ulogin() {
+  const navigate = useNavigate()
+  const handleSubmit = async (values) =>{
+    try{
+      let data = { 
+        username: values.username,
+        password: values.password,
+      };
+      const response = await axios.post(`http://localhost:5000/user/ulogin`, data);
+      localStorage.setItem('user', JSON.stringify(response.data));
+      window.dispatchEvent(new Event('authChange'));
+      message.success("User logged in successfully");
+      navigate('/store')
+
+    } catch (err){
+      if (err.response){
+        if(err.response.status === 401 || err.response.status === 404){
+          message.error("User not found or incorrect password");
+        } else {
+          message.error(err.response.data?.message || "Login Failed");
+        }
+      } else {
+        message.error("Something went Wrong. please try again");
+      }
+    }
+  }
 
   return (
     <>
@@ -28,7 +54,7 @@ function Ulogin() {
           <Text type="secondary">Login to start shopping</Text>
         </div>
 
-        <Form layout="vertical" size="large">
+        <Form onFinish={handleSubmit} layout="vertical" size="large">
           <Form.Item
             name="username"
             rules={[{ required: true, message: 'Please input your Username!' }]}

@@ -4,6 +4,7 @@ import Landing from './pages/landing/Landing'
 import Uregister from './pages/auth/Uregister'
 import Ulogin from './pages/auth/Ulogin'
 import Features from './pages/features/Features'
+import Store from './pages/store/Store'
 import Navebar from './components/Navebar'
 import Footer from './components/Footer'
 
@@ -17,6 +18,7 @@ function App() {
         <Route path='/ulogin' element={<Ulogin />} />
         <Route path='/register' element={<Uregister />} />
         <Route path='/features' element={<Features />} />
+        <Route path='/store' element={<Store />} />
       </Routes>
       <Footer />
     </Router>
