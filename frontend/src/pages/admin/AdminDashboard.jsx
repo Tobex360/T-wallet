@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('products');
@@ -136,6 +137,7 @@ export default function AdminDashboard() {
             <div>
               <p className="font-semibold">Admin User</p>
               <button className="text-sm opacity-75 hover:opacity-100">Logout</button>
+              <Link to='/'><button className="text-sm opacity-75 hover:opacity-100">Logout</button></Link>
             </div>
           </div>
         </div>
