@@ -2,25 +2,48 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Landing from './pages/landing/Landing'
 import Uregister from './pages/auth/Uregister'
+import Aregister from './pages/auth/Aregister'
 import Ulogin from './pages/auth/Ulogin'
+import Alogin from './pages/auth/Alogin'
 import Features from './pages/features/Features'
+import AdminDashboard from './pages/admin/AdminDashboard'
 import Store from './pages/store/Store'
 import Navebar from './components/Navebar'
 import Footer from './components/Footer'
 
+// Layout for regular pages (with navbar and footer)
+function MainLayout({ children }) {
+  return (
+    <>
+      <Navebar />
+      {children}
+      <Footer />
+    </>
+  )
+}
+
+// Layout for admin pages (no navbar/footer)
+function AdminLayout({ children }) {
+  return <>{children}</>
+}
+
 function App() {
   return (
     <Router>
-      <Navebar />
       <Routes>
-        <Route path='/' element={<Landing />} index/>
-        <Route path='/uregister' element={<Uregister />} />
-        <Route path='/ulogin' element={<Ulogin />} />
-        <Route path='/register' element={<Uregister />} />
-        <Route path='/features' element={<Features />} />
-        <Route path='/store' element={<Store />} />
+        {/* Regular pages with Navbar and Footer */}
+        <Route path='/' element={<MainLayout><Landing /></MainLayout>} />
+        <Route path='/uregister' element={<MainLayout><Uregister /></MainLayout>} />
+        <Route path='/aregister' element={<MainLayout><Aregister /></MainLayout>} />
+        <Route path='/ulogin' element={<MainLayout><Ulogin /></MainLayout>} />
+        <Route path='/alogin' element={<MainLayout><Alogin /></MainLayout>} />
+        <Route path='/register' element={<MainLayout><Uregister /></MainLayout>} />
+        <Route path='/features' element={<MainLayout><Features /></MainLayout>} />
+        <Route path='/store' element={<MainLayout><Store /></MainLayout>} />
+        
+        {/* Admin pages without Navbar and Footer */}
+        <Route path='/adash' element={<AdminLayout><AdminDashboard /></AdminLayout>} />
       </Routes>
-      <Footer />
     </Router>
   );
 }

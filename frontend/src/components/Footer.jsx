@@ -38,6 +38,7 @@ function Footer() {
               <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> COLLECTION</Link>
               <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> BRANDS</Link>
               <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> GIFT CARDS</Link>
+              <Link to="/alogin" className="fl hover:text-white transition-colors"><RightOutlined />  ADMIN</Link>
             </nav>
           </div>
 
