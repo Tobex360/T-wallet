@@ -34,9 +34,57 @@ async function getProducts(req,res){
     }
 }
 
+async function updateProduct(req, res){
+    try{
+        const { id } = req.params;
+        const { name, description, price, stock, status } = req.body;
+
+        const updateData = {
+            name,
+            description,
+            price,
+            stock,
+            status,
+        };
+
+        // Only update image if a new file is provided
+        if (req.file) {
+            updateData.image = req.file.path;
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true });
+        
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        res.json(updatedProduct);
+    }catch(error){
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function deleteProduct(req, res){
+    try{
+        const { id } = req.params;
+        
+        const deletedProduct = await Product.findByIdAndDelete(id);
+        
+        if (!deletedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        res.json({ message: 'Product deleted successfully', product: deletedProduct });
+    }catch(error){
+        res.status(500).json({ message: error.message });
+    }
+}
+
 const ProductController = {
     createProduct,
     getProducts,
+    updateProduct,
+    deleteProduct,
 }
 
 module.exports = ProductController;

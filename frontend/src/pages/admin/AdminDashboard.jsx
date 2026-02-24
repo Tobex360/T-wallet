@@ -52,9 +52,26 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       if (editingProduct) {
-        // Edit functionality - update locally for now
+        // Edit functionality - call backend API
+        const formData = new FormData();
+        formData.append('name', values.name);
+        formData.append('description', values.description);
+        formData.append('price', values.price);
+        formData.append('stock', values.stock);
+        formData.append('status', values.status);
+        
+        if (uploadedFile) {
+          formData.append('image', uploadedFile);
+        }
+
+        const response = await axios.put(`http://localhost:5000/products/update/${editingProduct._id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
         setProducts(prev => prev.map(p => 
-          p._id === editingProduct._id ? { ...p, ...values } : p
+          p._id === editingProduct._id ? response.data : p
         ));
         message.success('Product updated successfully');
       } else {
@@ -75,14 +92,14 @@ export default function AdminDashboard() {
             'Content-Type': 'multipart/form-data',
           },
         });
-      setProducts(prev => [...prev, response.data]);
+        setProducts(prev => [...prev, response.data]);
         message.success('Product added successfully');
       }
       setIsModalOpen(false);
       form.resetFields();
       setUploadedFile(null);
     } catch (error) {
-      message.error(error.response?.data?.message || 'Failed to add product');
+      message.error(error.response?.data?.message || 'Failed to save product');
       console.error('Error:', error);
     } finally {
       setLoading(false);
@@ -100,9 +117,15 @@ export default function AdminDashboard() {
       okText: 'Yes, Delete',
       okType: 'danger',
       cancelText: 'No',
-      onOk() {
-        setProducts(prev => prev.filter(p => p._id !== id));
-        message.success('Product deleted');
+      async onOk() {
+        try {
+          await axios.delete(`http://localhost:5000/products/delete/${id}`);
+          setProducts(prev => prev.filter(p => p._id !== id));
+          message.success('Product deleted successfully');
+        } catch (error) {
+          message.error(error.response?.data?.message || 'Failed to delete product');
+          console.error('Error:', error);
+        }
       },
     });
   };
