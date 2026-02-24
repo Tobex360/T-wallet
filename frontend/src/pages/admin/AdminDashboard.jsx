@@ -246,7 +246,6 @@ export default function AdminDashboard() {
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null} // We use the form buttons instead
-        destroyOnClose
       >
         <Form
           form={form}
