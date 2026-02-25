@@ -17,6 +17,7 @@ function Ulogin() {
         password: values.password,
       };
       const response = await axios.post(`http://localhost:5000/user/ulogin`, data);
+      localStorage.removeItem('admin');
       localStorage.setItem('user', JSON.stringify(response.data));
       window.dispatchEvent(new Event('authChange'));
       message.success("User logged in successfully");

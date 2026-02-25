@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Table, Button, Modal, Form, Input, InputNumber, Select, Tag, Space, Upload, message } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { Table, Button, Modal, Form, Input, InputNumber, Select, Tag, Space, Upload, message, Dropdown} from 'antd';
 import axios from 'axios';
 import { PlusOutlined, DashboardOutlined, ShoppingOutlined, UserOutlined, UploadOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 
@@ -14,11 +14,31 @@ export default function AdminDashboard() {
   const [form] = Form.useForm(); // Antd Form Instance
   const [uploadedFile, setUploadedFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+
+  const navigate = useNavigate()
+
+
 
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
   fetchProducts();
+  }, []);
+
+  useEffect(()=>{
+    const admin = localStorage.getItem('admin');
+
+    if (admin){
+      const adminData = JSON.parse(admin);
+
+      setUsername(adminData.username || 'Username')
+      setFirstname(adminData.firstname || 'Firstname')
+      setLastname(adminData.lastname || 'Lastname')
+    }
+
   }, []);
 
   const fetchProducts = async () => {
@@ -129,6 +149,24 @@ export default function AdminDashboard() {
       },
     });
   };
+  const handleLogout = ()=>{
+    localStorage.removeItem('admin');
+
+    window.dispatchEvent(new Event('authChange'));
+    setUsername('');
+    navigate('/');
+  };
+
+  const items=[
+    {
+      label: (
+        <span onClick={handleLogout}>
+          Logout
+        </span>
+      ),
+      key: '0',
+    },
+  ];
 
   // --- Table Columns Definition ---
   const columns = [
@@ -225,12 +263,21 @@ export default function AdminDashboard() {
               className={`text-left h-10 ${activeTab === 'users' ? 'bg-yellow-600' : 'text-white'}`}
               onClick={() => setActiveTab('users')}
             > Users </Button>
+            <Dropdown menu={{ items }} trigger={['click']}>
+              <div className='hover:cursor-pointer' onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <UserOutlined />
+                  {username}
+                </Space>
+              </div>
+            </Dropdown>
           </nav>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="ml-64 flex-1 p-8">
+        <h6>Welcome {firstname} {lastname}</h6>
         <header className="bg-white p-6 rounded-lg shadow-sm mb-6 flex justify-between items-center">
           <h2 className="text-2xl font-bold capitalize">{activeTab}</h2>
           {activeTab === 'products' && (

@@ -17,6 +17,7 @@ function Alogin() {
         password: values.password,
       };
       const response = await axios.post(`http://localhost:5000/admin/alogin`, data);
+      localStorage.removeItem('user');
       localStorage.setItem('admin', JSON.stringify(response.data));
       window.dispatchEvent(new Event('authChange'));
       message.success("User logged in successfully");
