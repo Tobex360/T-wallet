@@ -205,7 +205,7 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <div className="w-64 bg-yellow-800 text-white flex flex-col fixed h-full">
         <div className="p-6">
-          <h1 className="text-xl font-bold mb-8">Wallet Shop Admin</h1>
+          <h1 className="text-xl font-bold mb-8">Admin page</h1>
           <nav className="flex flex-col gap-2">
             <Button 
               type={activeTab === 'dashboard' ? 'primary' : 'text'} 
