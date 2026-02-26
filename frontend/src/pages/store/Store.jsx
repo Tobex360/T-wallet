@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useCart } from '../../context/CartContext';
 import hero from '../../assets/frame 21.jpg';
 import { Card, Button, message, Badge, Typography, Divider, Spin } from 'antd';
 import { ShoppingCartOutlined, FireOutlined } from '@ant-design/icons';
@@ -10,6 +11,7 @@ const { Title, Text } = Typography;
 
 function Store() {
   const [products, setProducts] = useState([]);
+  const { addToCart, getCartCount} = useCart()
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,13 +31,13 @@ function Store() {
     }
   };
 
-  const handleAddToCart = async (product) => {
-    const user = localStorage.getItem('user');
-    if (!user) {
-      message.warning('Please login to add items to cart');
-      return;
+  const handleAddToCart = async (productId, product) => {
+    const result = await addToCart(productId, 1);
+    if (result.success) {
+      message.success(`${product.name} added to cart!`);
+    } else {
+      message.error('Failed to add to cart')
     }
-    message.success(`${product.name} added to cart!`);
   };
 
   return (
@@ -72,7 +74,7 @@ function Store() {
 
       {/* --- SECTION DIVIDER --- */}
       <div className='py-12 px-8'>
-        <Divider orientation="left">
+        <Divider titlePlacement="left">
           <Title level={2} className='m-0 uppercase tracking-widest'>Our Catalogue</Title>
         </Divider>
       </div>
@@ -107,7 +109,7 @@ function Store() {
                     <Button 
                       type="text" 
                       icon={<ShoppingCartOutlined />} 
-                      onClick={() => handleAddToCart(product)}
+                      onClick={() => handleAddToCart(product._id, product)}
                       className='hover:text-[#ffb900] font-bold'
                     >
                       ADD TO CART

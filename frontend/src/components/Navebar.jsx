@@ -46,7 +46,7 @@ function Navebar() {
 
   const handleLogout = ()=>{
     localStorage.removeItem('user');
-
+    localStorage.removeItem('userId');
     window.dispatchEvent(new Event('authChange'));
     setUserType(null);
     setUsername('');
@@ -87,6 +87,8 @@ function Navebar() {
           <Link to="/ulogin"className='fl'>Login</Link>
         </div>)}
     </div>)}
+
+
     {userType === 'user' &&(<div>
       <div className='flex bg-yellow-700 justify-between p-2 text-l items-center'>
         <div><Link to='/'><img src={Logo} alt="" /></Link></div>
@@ -95,7 +97,7 @@ function Navebar() {
           <Link to="/" className='fl'>Home</Link>
           <Link to="/features" className='fl'>Features</Link>
           <Link to='/store' className='fl'>Store</Link>
-          <Link className='fl'><ShoppingCartOutlined /></Link>
+          <Link to='/cart' className='fl'><ShoppingCartOutlined /></Link>
            <Dropdown menu={{ items }} trigger={['click']}>
               <div className='hover:cursor-pointer fl' onClick={(e) => e.preventDefault()}>
                 <Space>

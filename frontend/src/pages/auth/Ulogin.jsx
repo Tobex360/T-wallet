@@ -19,6 +19,9 @@ function Ulogin() {
       const response = await axios.post(`http://localhost:5000/user/ulogin`, data);
       localStorage.removeItem('admin');
       localStorage.setItem('user', JSON.stringify(response.data));
+      // localStorage.setItem("userId", response.data.user._id);
+      localStorage.setItem("userId", response.data.userid);
+      console.log("LOGIN RESPONSE:", response.data);
       window.dispatchEvent(new Event('authChange'));
       message.success("User logged in successfully");
       navigate('/store')
