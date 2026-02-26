@@ -3,7 +3,7 @@ import { useCart } from '../../context/CartContext';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined, MinusOutlined, PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Button, Divider, Empty } from 'antd';
-
+import BackButton from '../../components/BackButton'
 export default function Cart() {
   const { cart, updateQuantity, removeFromCart, getCartTotal, clearCart } = useCart();
 
@@ -29,6 +29,7 @@ export default function Cart() {
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
+        <BackButton />
         <h1 className="text-4xl font-black mb-10 tracking-tight flex items-center gap-3">
           <span className="text-[#ffb900]">YOUR</span> Cart
         </h1>
