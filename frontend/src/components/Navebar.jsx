@@ -136,9 +136,15 @@ function Navebar() {
                 </Space>
               </div>
             </Dropdown>
-          <Badge count={getCartCount()} size="small" offset={[-8, 8]} overflowCount={99}>
-            <Link to='/cart' className='fl'><ShoppingCartOutlined /></Link>
-          </Badge>
+          {/* Cart with badge */}
+          <div className="relative">
+            <Link to='/cart' className='fl text-white text-2xl'>
+              <ShoppingCartOutlined />
+            </Link>
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              {getCartCount()}
+            </span>
+          </div>
         </div>)}
     </div>)}
     </>
