@@ -11,6 +11,7 @@ import Store from './pages/store/Store'
 import Cart from './pages/cart/Cart'
 import Navebar from './components/Navebar'
 import Footer from './components/Footer'
+import Bct from './components/bct'
 import { CartProvider } from './context/CartContext'
 
 // Layout for regular pages (with navbar and footer)
@@ -19,6 +20,7 @@ function MainLayout({ children }) {
     <>
       <Navebar />
       {children}
+      <Bct />
       <Footer />
     </>
   )
