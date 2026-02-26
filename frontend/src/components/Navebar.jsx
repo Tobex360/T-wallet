@@ -35,7 +35,7 @@ function Navebar() {
     window.addEventListener('storage', handleStorageChange);
 
     const handleAuthChange = () => {
-      updateUserState 
+      updateUserState();
     };
     window.addEventListener('authChange', handleAuthChange);
 
