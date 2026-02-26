@@ -35,7 +35,7 @@ function Bct() {
             type="button"
             className="btn btn-floating btn-lg"
             id="btn-back-to-top">
-            <i class="fas fa-arrow-up"></i>
+            <i className="fas fa-arrow-up"></i>
         </button>
     )
 

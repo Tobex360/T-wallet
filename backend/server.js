@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const authUroutes = require('./routes/authUroutes');
 const authAroutes = require('./routes/authAroutes');
 const productRoutes = require('./routes/productRoutes');
-const cartRoutes = require('./routes/cartRoutes')
+const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 const cors = require('cors');
 const path = require('path');
 
@@ -25,6 +26,7 @@ app.use('/user',authUroutes);
 app.use('/admin',authAroutes);
 app.use('/products',productRoutes);
 app.use('/cart',cartRoutes);
+app.use('/orders',orderRoutes);
 
 mongoose.connect(DB_URL).then((result)=>{
     console.log('Connected to mongodb');

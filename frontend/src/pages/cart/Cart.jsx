@@ -124,9 +124,11 @@ export default function Cart() {
                 </div>
               </div>
 
-              <button className="w-full bg-[#ffb900] text-black font-black py-3 rounded-2xl hover:scale-[1.02] transition-transform shadow-lg shadow-yellow-500/20 uppercase tracking-widest">
-                Proceed to Checkout
-              </button>
+              <Link to="/checkout" className="w-full">
+                <button className="w-full bg-[#ffb900] text-black font-black py-3 rounded-2xl hover:scale-[1.02] transition-transform shadow-lg shadow-yellow-500/20 uppercase tracking-widest">
+                  Proceed to Checkout
+                </button>
+              </Link>
               
               <p className="mt-6 text-center text-xs text-gray-400 font-medium">
                 Payments are secure and encrypted.

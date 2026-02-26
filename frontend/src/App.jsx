@@ -9,6 +9,9 @@ import Features from './pages/features/Features'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import Store from './pages/store/Store'
 import Cart from './pages/cart/Cart'
+import Checkout from './pages/checkout/Checkout'
+import OrderSuccess from './pages/checkout/OrderSuccess'
+import Orders from './pages/checkout/Orders'
 import Navebar from './components/Navebar'
 import Footer from './components/Footer'
 import Bct from './components/bct'
@@ -46,6 +49,9 @@ function App() {
           <Route path='/features' element={<MainLayout><Features /></MainLayout>} />
           <Route path='/store' element={<MainLayout><Store /></MainLayout>} />
           <Route path='/cart' element={<MainLayout><Cart /></MainLayout>} />
+          <Route path='/checkout' element={<MainLayout><Checkout /></MainLayout>} />
+          <Route path='/order-success/:orderId' element={<MainLayout><OrderSuccess /></MainLayout>} />
+          <Route path='/orders' element={<MainLayout><Orders /></MainLayout>} />
           
           {/* Admin pages without Navbar and Footer */}
           <Route path='/adash' element={<AdminLayout><AdminDashboard /></AdminLayout>} />
