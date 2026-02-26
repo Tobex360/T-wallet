@@ -53,7 +53,7 @@ function Store() {
         
         <div className='relative z-10 px-8 md:px-20 max-w-4xl'>
           <Badge count={<FireOutlined style={{ color: '#ffb900' }} />} offset={[10, 0]}>
-            <Text className='text-[#ffb900] font-bold tracking-[0.2em] uppercase'>New Arrivals 2026</Text>
+            <Text className='text-white font-bold tracking-[0.2em] uppercase'>New Arrivals 2026</Text>
           </Badge>
           <h1 className='text-white text-5xl md:text-7xl font-black mb-6 leading-tight uppercase italic'>
             Discover <br /><span className='text-[#ffb900]'>What's New</span>
@@ -119,7 +119,7 @@ function Store() {
                       {product.name}
                     </Title>
                     <Text className='font-black text-[#ffb900] text-lg'>
-                      ₦{product.price?.toLocaleString()}
+                      ${product.price?.toLocaleString()}
                     </Text>
                   </div>
                   <Text type="secondary" className='block h-12 overflow-hidden italic mb-2'>
