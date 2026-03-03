@@ -99,6 +99,7 @@ function Navebar() {
           <Link to="/" className='fl'>Home</Link>
           <Link to="/features" className='fl'>Features</Link>
           <Link to='/store' className='fl'>Store</Link>
+          <Link to='/orders' className='fl'>Orders</Link>
           {/* Cart with badge */}
           <div className="relative">
             <Link to='/cart' className='fl text-white text-2xl'>
