@@ -72,6 +72,17 @@ export default function Checkout() {
     }
   };
 
+  const handleDelete = async(id) =>{
+    try{
+      await axios.delete(`http://localhost:5000/orders/delete/${id}`);
+      setOrderCreated(null);
+      message.success('you can now edit your shipping details');
+    } catch (error){
+      message.error('failed to delete order');
+      console.error('Error:', error);
+    }
+  }
+
   const totalAmount = getCartTotal();
 
   return (
@@ -232,6 +243,7 @@ export default function Checkout() {
                     <Button
                       size="large"
                       className="w-full bg-blue-600 text-black hover:bg-blue-700 font-bold"
+                      htmlType='button'
                       icon={<CreditCardOutlined />}
                       onClick={() => setPaymentModalVisible(true)}
                     >
@@ -241,7 +253,8 @@ export default function Checkout() {
                       danger
                       size="large"
                       className="w-full"
-                      onClick={() => setOrderCreated(null)}
+                      htmlType='button'
+                      onClick={()=>handleDelete(orderCreated.orderId)}
                     >
                       Cancel & Edit Shipping
                     </Button>

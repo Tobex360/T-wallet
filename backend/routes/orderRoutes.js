@@ -6,21 +6,26 @@ const {
   getOrder,
   updatePaymentStatus,
   cancelOrder,
+  deleteOrder,
 } = require('../controllers/orderController');
 
 // Create order
 router.post('/create', createOrder);
 
-// Get all user orders
-router.get('/user/:userId', getUserOrders);
-
-// Get single order
-router.get('/:orderId', getOrder);
-
-// Update payment status (after PayPal transaction)
+// Update payment status
 router.put('/payment/update', updatePaymentStatus);
 
 // Cancel order
 router.delete('/cancel/:orderId', cancelOrder);
+
+// Delete order
+router.delete('/delete/:id', deleteOrder);
+
+// Get all user orders
+router.get('/user/:userId', getUserOrders);
+
+// ALWAYS KEEP DYNAMIC PARAM ROUTES LAST
+router.get('/:orderId', getOrder);
+
 
 module.exports = router;

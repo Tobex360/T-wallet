@@ -136,10 +136,25 @@ async function cancelOrder(req, res) {
   }
 }
 
+async function deleteOrder(req,res) {
+  try{
+    const { id } =req.params;
+    const deletedOrder = await Order.findByIdAndDelete(id);
+
+    if(!deletedOrder){
+      return res.status(404).json({message: ' Order not found' });
+    }
+    res.json({ message: 'Order deleted successfully', order: deletedOrder });
+  }catch(error){
+    res.status(500).json({ message: error.message });
+  }
+  
+}
 module.exports = {
   createOrder,
   getUserOrders,
   getOrder,
   updatePaymentStatus,
   cancelOrder,
+  deleteOrder,
 };
