@@ -34,10 +34,10 @@ function Footer() {
             <h2 className="text-white font-bold tracking-widest text-sm">SHOP</h2>
             <div className="h-px bg-slate-500 w-10"></div>
             <nav className="flex flex-col gap-2 text-sm">
-              <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> NEW ARRIVALS</Link>
-              <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> COLLECTION</Link>
-              <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> BRANDS</Link>
-              <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> GIFT CARDS</Link>
+              <Link to="/store" className="fl hover:text-white transition-colors"><RightOutlined /> NEW ARRIVALS</Link>
+              <Link to="/store" className="fl hover:text-white transition-colors"><RightOutlined /> COLLECTION</Link>
+              <Link to="/store" className="fl hover:text-white transition-colors"><RightOutlined /> BRANDS</Link>
+              <Link to="/store" className="fl hover:text-white transition-colors"><RightOutlined /> GIFT CARDS</Link>
               <Link to="/alogin" className="fl hover:text-white transition-colors"><RightOutlined />  ADMIN</Link>
             </nav>
           </div>
@@ -47,9 +47,9 @@ function Footer() {
             <h2 className="text-white font-bold tracking-widest text-sm">POPULAR</h2>
             <div className="h-px bg-slate-700 w-10"></div>
             <nav className="flex flex-col gap-2 text-sm">
-              <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> SEASONAL FAVORITES</Link>
-              <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> MUST-HAVE WALLETS</Link>
-              <Link to="/" className="fl hover:text-white transition-colors"><RightOutlined /> TRENDY ACCESSORIES</Link>
+              <Link to="/store" className="fl hover:text-white transition-colors"><RightOutlined /> SEASONAL FAVORITES</Link>
+              <Link to="/store" className="fl hover:text-white transition-colors"><RightOutlined /> MUST-HAVE WALLETS</Link>
+              <Link to="/store" className="fl hover:text-white transition-colors"><RightOutlined /> TRENDY ACCESSORIES</Link>
             </nav>
           </div>
           
