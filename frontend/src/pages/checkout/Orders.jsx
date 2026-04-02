@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Table, Button, Card, message, Spin, Empty, Tag } from 'antd';
-import { EyeOutlined } from '@ant-design/icons';
+import { Table, Button, Card, message, Spin, Empty, Tag, Space, Typography, Popconfirm, Tooltip } from 'antd';
+import { EyeOutlined, DeleteOutlined, ShoppingOutlined } from '@ant-design/icons';
 import axios from 'axios';
+
+const { Title, Text } = Typography;
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
@@ -25,176 +26,181 @@ export default function Orders() {
       setOrders(response.data);
     } catch (error) {
       message.error('Failed to load orders');
-      console.error('Error:', error);
     } finally {
       setLoading(false);
     }
   };
 
-    const handleDelete = async (orderId) => {
-    if (orderId) {
-      try {
-        // Delete the pending order so it doesn't stay in the DB
-        await axios.delete(`http://localhost:5000/orders/delete/${orderId}`);
-      } catch (error) {
-        console.error('Error clearing pending order:', error);
-        // We still navigate even if delete fails, but we log the error
+  const handleDelete = async (orderId) => {
+    try {
+      await axios.delete(`http://localhost:5000/orders/delete/${orderId}`);
+      message.success('Order removed from history');
+      fetchOrders();
+    } catch (error) {
+      message.error('Failed to delete order');
+    }
+  };
+
+  const getStatusTag = (status, type) => {
+    const config = {
+      payment: {
+        completed: { color: 'success', label: 'Paid' },
+        pending: { color: 'warning', label: 'Pending' },
+        failed: { color: 'error', label: 'Failed' },
+      },
+      order: {
+        processing: { color: 'blue', label: 'Processing' },
+        shipped: { color: 'cyan', label: 'Shipped' },
+        delivered: { color: 'green', label: 'Delivered' },
+        cancelled: { color: 'red', label: 'Cancelled' },
       }
-    }
-    fetchOrders()
-  };
+    };
 
-  const getPaymentStatusColor = (status) => {
-    switch (status) {
-      case 'completed':
-        return 'success';
-      case 'pending':
-        return 'warning';
-      case 'failed':
-        return 'error';
-      case 'cancelled':
-        return 'default';
-      default:
-        return 'default';
-    }
-  };
-
-  const getOrderStatusColor = (status) => {
-    switch (status) {
-      case 'processing':
-        return 'processing';
-      case 'shipped':
-        return 'cyan';
-      case 'delivered':
-        return 'success';
-      case 'cancelled':
-        return 'error';
-      default:
-        return 'default';
-    }
+    const item = config[type][status] || { color: 'default', label: status };
+    return (
+      <Tag color={item.color} style={{ borderRadius: '4px', textTransform: 'uppercase', fontWeight: 600 }}>
+        {item.label}
+      </Tag>
+    );
   };
 
   const columns = [
     {
-      title: 'Order ID',
-      dataIndex: '_id',
-      key: '_id',
-      render: (text) => text.substring(0, 8) + '...',
-      width: 100,
-    },
-    {
-      title: 'Date',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (text) => new Date(text).toLocaleDateString(),
-      width: 120,
+      title: 'Order Details',
+      key: 'orderInfo',
+      render: (_, record) => (
+        <Space direction="vertical" size={0}>
+          <Text strong>#{record._id.substring(record._id.length - 8)}</Text>
+          <Text type="secondary" size="small">{new Date(record.createdAt).toLocaleDateString()}</Text>
+        </Space>
+      ),
     },
     {
       title: 'Items',
       dataIndex: 'items',
       key: 'items',
-      render: (items) => `${items.length} item(s)`,
-      width: 100,
+      render: (items) => <Text>{items.length} {items.length === 1 ? 'item' : 'items'}</Text>,
     },
     {
-      title: 'Total',
+      title: 'Total Amount',
       dataIndex: 'totalAmount',
       key: 'totalAmount',
-      render: (amount) => `$${amount.toFixed(2)}`,
-      width: 100,
+      render: (amount) => <Text strong className="text-lg">${amount.toFixed(2)}</Text>,
     },
     {
-      title: 'Payment Status',
+      title: 'Payment',
       dataIndex: 'paymentStatus',
       key: 'paymentStatus',
-      render: (status) => (
-        <Tag color={getPaymentStatusColor(status)} className="capitalize">
-          {status}
-        </Tag>
-      ),
-      width: 120,
+      render: (status) => getStatusTag(status, 'payment'),
     },
     {
       title: 'Order Status',
       dataIndex: 'orderStatus',
       key: 'orderStatus',
-      render: (status) => (
-        <Tag color={getOrderStatusColor(status)} className="capitalize">
-          {status}
-        </Tag>
-      ),
-      width: 120,
-    },
-     {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Button
-          type="primary"
-          size="small"
-          icon={<EyeOutlined />}
-          onClick={() => navigate(`/order-success/${record._id}`)}
-        >
-          View
-        </Button>
-      ),
-      width: 80,
+      render: (status) => getStatusTag(status, 'order'),
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: 'Actions',
+      key: 'actions',
+      fixed: 'right',
+      width: 120,
       render: (_, record) => (
-        <Button
-          danger
-          size="small"
-          icon={<EyeOutlined />}
-          onClick={() => handleDelete(record._id)}
-        >
-          Delete
-        </Button>
+        <Space size="middle">
+          <Tooltip title="View Details">
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<EyeOutlined />}
+              onClick={() => navigate(`/order-success/${record._id}`)}
+            />
+          </Tooltip>
+          
+          <Popconfirm
+            title="Delete this order history?"
+            onConfirm={() => handleDelete(record._id)}
+            okText="Yes"
+            cancelText="No"
+            okButtonProps={{ danger: true }}
+          >
+            <Tooltip title="Delete">
+              <Button
+                danger
+                type="text"
+                shape="circle"
+                icon={<DeleteOutlined />}
+              />
+            </Tooltip>
+          </Popconfirm>
+        </Space>
       ),
-      width: 80,
     },
   ];
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex flex-col justify-center items-center min-h-screen bg-white">
         <Spin size="large" />
+        <Text className="mt-4" type="secondary">Loading your orders...</Text>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 md:px-8">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">My Orders</h1>
-          <p className="text-gray-600">View and track all your orders</p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <Title level={2} style={{ margin: 0 }}>My Purchase History</Title>
+            <Text type="secondary">Track, manage, and view details of your previous orders.</Text>
+          </div>
+          {orders.length > 0 && (
+            <Button 
+              icon={<ShoppingOutlined />} 
+              onClick={() => navigate('/store')}
+            >
+              Continue Shopping
+            </Button>
+          )}
         </div>
 
-        <Card className="shadow-lg">
+        <Card 
+          bordered={false} 
+          className="shadow-sm overflow-hidden" 
+          bodyStyle={{ padding: 0 }}
+        >
           {orders.length === 0 ? (
-            <Empty
-              description="No orders yet"
-              style={{ marginTop: 48, marginBottom: 48 }}
-            >
-              <Button
-                type="primary"
-                size="large"
-                className="bg-yellow-700 hover:bg-yellow-600"
-                onClick={() => navigate('/store')}
+            <div className="py-20">
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={
+                  <span className="text-gray-500 text-lg">
+                    You haven't placed any orders yet.
+                  </span>
+                }
               >
-                Start Shopping
-              </Button>
-            </Empty>
+                <Button
+                  type="primary"
+                  size="large"
+                  icon={<ShoppingOutlined />}
+                  className="mt-4 h-12 px-8 rounded-full bg-blue-600"
+                  onClick={() => navigate('/store')}
+                >
+                  Explore Store
+                </Button>
+              </Empty>
+            </div>
           ) : (
             <Table
               columns={columns}
               dataSource={orders}
               rowKey="_id"
-              pagination={{ pageSize: 10 }}
-              scroll={{ x: 1200 }}
+              pagination={{ 
+                pageSize: 8, 
+                position: ['bottomCenter'],
+                showTotal: (total) => `Total ${total} orders` 
+              }}
+              scroll={{ x: 800 }}
+              className="ant-table-striped"
             />
           )}
         </Card>
