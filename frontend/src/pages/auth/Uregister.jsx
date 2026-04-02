@@ -42,7 +42,7 @@ function Uregister() {
 
   const handleGoogleSuccess = async (credentialResponse) => {
   try {
-    console.log("Google response:", credentialResponse);
+    // console.log("Google response:", credentialResponse);
 
     // Send token to backend
     const res = await axios.post(
