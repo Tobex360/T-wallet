@@ -58,7 +58,7 @@ async function getUserOrders(req, res) {
   try {
     const { userId } = req.params;
 
-    const orders = await Order.find({ userId, paymentStatus:'completed' })
+    const orders = await Order.find({ userId })
       .populate("items.productId")
       .sort({ createdAt: -1 });
 
