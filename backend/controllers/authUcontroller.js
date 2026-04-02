@@ -1,6 +1,8 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-
+const authenticateToken = require('../middleware/authjwt');
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 require('dotenv').config();
 
 const secretKey = process.env.JWT_SECRET;
@@ -64,6 +66,55 @@ async function loginUser(req,res){
     }
 }
 
+async function googleLogin(req, res) {
+  console.log("Body received:", req.body);
+  console.log("GOOGLE_CLIENT_ID:", process.env.GOOGLE_CLIENT_ID);
+  try {
+    const { token } = req.body;
+
+    if (!token) return res.status(400).json({ error: "Missing Google token" });
+
+    const ticket = await client.verifyIdToken({
+      idToken: token, 
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name } = payload;
+    const username = email.split("@")[0];
+
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = new User({
+        firstname: name,
+        username,
+        email,
+        password: payload.sub,
+        authProvider: 'google'
+      });
+      await user.save();
+    }
+
+    const jwtToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "3h" }
+    );
+
+    return res.json({
+      userid: user._id,
+      username: user.username,
+      firstname: user.firstname,
+      email: user.email,
+      token: jwtToken
+    });
+
+  } catch (err) {
+    console.error("Google login error:", err);
+    res.status(400).json({ error: "Google login failed" });
+  }
+}
+
 
 
 
@@ -71,6 +122,7 @@ async function loginUser(req,res){
 const AuthUcontroller = {
     registerUser,
     loginUser,
+    googleLogin
 }
 
 module.exports = AuthUcontroller;
