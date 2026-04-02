@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, Input, Button, Card, message, Divider, Modal, Steps, Typography, Space, Badge } from 'antd';
 import { CreditCardOutlined, HomeOutlined, ShoppingCartOutlined, CheckCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -8,13 +8,52 @@ import axios from 'axios';
 const { Title, Text } = Typography;
 
 export default function Checkout() {
-  const { cart, getCartTotal, clearCart } = useCart();
+  const { cart, setCart, getCartTotal, clearCart } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [orderCreated, setOrderCreated] = useState(null);
   const [paymentModalVisible, setPaymentModalVisible] = useState(false);
   const [processingPayment, setProcessingPayment] = useState(false);
+  const [isRetrying, setIsRetrying] = useState(false);
+
+  useEffect(() => {
+    const retryOrderState = location.state?.retryOrder;
+    const retryOrderId = location.state?.retryOrderId || new URLSearchParams(location.search).get('orderId');
+
+    const setRetryCartAndOrder = (orderData) => {
+      if (!orderData || !orderData.items) return;
+      const cartItems = orderData.items.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }));
+      setCart(cartItems);
+      setOrderCreated({
+        orderId: orderData._id,
+        shippingAddress: orderData.shippingAddress,
+      });
+      form.setFieldsValue(orderData.shippingAddress);
+      setIsRetrying(true);
+    };
+
+    if (!isRetrying) {
+      if (retryOrderState) {
+        setRetryCartAndOrder(retryOrderState);
+      } else if (retryOrderId) {
+        (async () => {
+          try {
+            const { data } = await axios.get(`http://localhost:5000/orders/${retryOrderId}`);
+            if (data.paymentStatus === 'pending') {
+              setRetryCartAndOrder(data);
+            }
+          } catch (error) {
+            console.error('Failed to load retry order', error);
+          }
+        })();
+      }
+    }
+  }, [location, isRetrying, setCart, form]);
 
   const userId = localStorage.getItem('userId');
   const totalAmount = getCartTotal();
