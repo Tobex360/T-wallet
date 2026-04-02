@@ -4,7 +4,9 @@ import axios from 'axios'
 import { Input, Button, Form, message, Card, Typography, Divider } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import bg from "../../assets/bg.jpg"
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { GoogleLogin } from '@react-oauth/google';
+
 
 const { Title, Text } = Typography;
 
@@ -38,6 +40,30 @@ function Ulogin() {
       }
     }
   }
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+  try {
+    console.log("Google response:", credentialResponse);
+
+    // Send token to backend
+    const res = await axios.post(
+      `http://localhost:5000/user/google-login`,
+      {
+        token: credentialResponse.credential
+      }
+    );
+
+    localStorage.setItem("user", JSON.stringify(res.data));
+    localStorage.setItem("userId", res.data.userid);
+    message.success("Google login successful");
+    window.dispatchEvent(new Event('authChange'));
+    navigate("/store");
+
+  } catch (err) {
+    console.log(err);
+    message.error("Google login failed");
+  }
+};
 
   return (
     <>
@@ -83,6 +109,17 @@ function Ulogin() {
             <Button type="primary" htmlType="submit" block className="login-btn">
               Login
             </Button>
+          </Form.Item>
+          <Form.Item>
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => message.error("Google Login Failed")}
+                theme="outline"
+                size="large"
+                text="signin_with"
+              />
+            </div>
           </Form.Item>
 
           <div className="auth-footer">

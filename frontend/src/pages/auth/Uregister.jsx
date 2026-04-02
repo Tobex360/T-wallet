@@ -12,6 +12,8 @@ import {
   HomeOutlined, 
   CarOutlined 
 } from '@ant-design/icons';
+import { GoogleLogin } from '@react-oauth/google';
+
 
 const { Title, Text } = Typography;
 
@@ -37,6 +39,31 @@ function Uregister() {
       message.error("Registration Failed");
     }
   };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+  try {
+    console.log("Google response:", credentialResponse);
+
+    // Send token to backend
+    const res = await axios.post(
+      `http://localhost:5000/user/google-login`,
+      {
+        token: credentialResponse.credential
+      }
+    );
+
+    localStorage.setItem("user", JSON.stringify(res.data));
+    localStorage.setItem("userId", res.data.userid);
+    message.success("Google login successful");
+    window.dispatchEvent(new Event('authChange'));
+    navigate("/store");
+
+  } catch (err) {
+    console.log(err);
+    message.error("Google login failed");
+  }
+};
+
   return (
     <>
     <div className="login-wrapper" style={{
@@ -95,6 +122,17 @@ function Uregister() {
             <Button type="primary" htmlType="submit" block className="login-btn driver-theme-btn">
               Register
             </Button>
+          </Form.Item>
+          <Form.Item>
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => message.error("Google Login Failed")}
+                theme="outline"
+                size="large"
+                text="signin_with"
+              />
+            </div>
           </Form.Item>
 
           <div className="auth-footer">
