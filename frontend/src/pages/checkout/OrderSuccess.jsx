@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Button, Divider, Spin, message } from 'antd';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 export default function OrderSuccess() {
@@ -48,12 +48,13 @@ export default function OrderSuccess() {
       <div className="max-w-2xl mx-auto">
         {/* Success Message */}
         <div className="text-center mb-8">
-          <CheckCircleOutlined className="text-6xl text-green-500 mb-4" />
+          {order.paymentStatus=='completed'? <CheckCircleOutlined className="text-6xl text-green-500 mb-4" />:<ClockCircleOutlined className="text-6xl text-yellow-700 mb-4" /> }
           <h1 className="text-4xl font-bold text-green-600 mb-2">
-            Payment Successful!
+            {order.paymentStatus=='completed' ? 'Payment Successful!':'Payment Pending!'}
           </h1>
           <p className="text-gray-600 text-lg">
-            Thank you for your purchase. Your order has been confirmed.
+            {/* Thank you for your purchase. Your order has been confirmed. */}
+            {order.paymentStatus=='completed'?'Thank you for your purchase. Your order has been confirmed.':'You are yet to complete your payment'}
           </p>
         </div>
 
@@ -69,7 +70,8 @@ export default function OrderSuccess() {
             <div>
               <p className="text-gray-600 text-sm mb-1">Payment Status</p>
               <p className="text-lg font-bold">
-                <span className="text-green-600">✓ {order.paymentStatus.toUpperCase()}</span>
+                {/* <span className="text-green-600">✓ {order.paymentStatus.toUpperCase()}</span> */}
+                <span className={order.paymentStatus=='completed' ? "text-green-600":"text-yellow-700"}>{order.paymentStatus=='completed'? <CheckOutlined />:<ClockCircleOutlined />} {order.paymentStatus.toUpperCase()}</span>
               </p>
             </div>
             <div>
@@ -141,8 +143,9 @@ export default function OrderSuccess() {
             className="flex-1 bg-yellow-700 text-black font-bold hover:bg-yellow-600"
             onClick={() => navigate('/store')}
           >
-            Continue Shopping
+            Retry Payment
           </Button>
+
           <Button
             size="large"
             className="flex-1"

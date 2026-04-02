@@ -85,7 +85,7 @@ async function getOrder(req, res) {
   }
 }
 
-// Update payment status (called after PayPal payment)
+// Update payment status
 async function updatePaymentStatus(req, res) {
   try {
     const { orderId, paymentId, status } = req.body;
