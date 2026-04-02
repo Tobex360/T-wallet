@@ -31,6 +31,19 @@ export default function Orders() {
     }
   };
 
+    const handleDelete = async (orderId) => {
+    if (orderId) {
+      try {
+        // Delete the pending order so it doesn't stay in the DB
+        await axios.delete(`http://localhost:5000/orders/delete/${orderId}`);
+      } catch (error) {
+        console.error('Error clearing pending order:', error);
+        // We still navigate even if delete fails, but we log the error
+      }
+    }
+    fetchOrders()
+  };
+
   const getPaymentStatusColor = (status) => {
     switch (status) {
       case 'completed':
@@ -112,7 +125,7 @@ export default function Orders() {
       ),
       width: 120,
     },
-    {
+     {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
@@ -123,6 +136,21 @@ export default function Orders() {
           onClick={() => navigate(`/order-success/${record._id}`)}
         >
           View
+        </Button>
+      ),
+      width: 80,
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Button
+          danger
+          size="small"
+          icon={<EyeOutlined />}
+          onClick={() => handleDelete(record._id)}
+        >
+          Delete
         </Button>
       ),
       width: 80,
