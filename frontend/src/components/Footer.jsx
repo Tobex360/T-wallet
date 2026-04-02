@@ -61,7 +61,7 @@ function Footer() {
         <div className="max-w-7xl mx-auto flex flex-col md:row justify-between items-center gap-6">
           <div className="text-sm text-slate-500 text-center md:text-left">
             © {currentYear} - 
-            <Link to="#" className="ml-1 fl text-slate-300 hover:text-white transition-colors underline-offset-4 hover:underline">
+            <Link to="https://my-portfolio-snowy-alpha-98.vercel.app/" className="ml-1 fl text-slate-300 hover:text-white transition-colors underline-offset-4 hover:underline">
                Echefu Tobechukwu
             </Link>. All Rights Reserved.
           </div>
