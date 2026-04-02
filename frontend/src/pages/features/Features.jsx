@@ -4,8 +4,11 @@ import rec1 from '../../assets/Rectangle 40.svg';
 import rec2 from '../../assets/Rectangle 41.svg';
 import rec3 from '../../assets/Rectangle 42.svg';
 import { WalletOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 function Features() {
+
+  const navigate = useNavigate()
 
   return (
     <div 
@@ -57,7 +60,7 @@ function Features() {
               </li>
           </ul>
 
-          <button className='mt-10 bg-slate-500 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg w-fit'>
+          <button onClick={()=>navigate('/store')} className='mt-10 bg-slate-500 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg w-fit'>
             View Collection
           </button>
         </div>
@@ -95,7 +98,7 @@ function Features() {
               </li>
           </ul>
 
-          <button className='mt-10  bg-slate-500 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg w-fit'>
+          <button onClick={()=>navigate('/store')} className='mt-10  bg-slate-500 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg w-fit'>
             View Collection
           </button>
         </div>
@@ -149,7 +152,7 @@ function Features() {
               </li>
           </ul>
 
-          <button className='mt-10  bg-slate-500 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg w-fit'>
+          <button onClick={()=>navigate('/store')} className='mt-10  bg-slate-500 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg w-fit'>
             View Collection
           </button>
         </div>
