@@ -3,10 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Button, Divider, Spin, message } from 'antd';
 import { CheckCircleOutlined, CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { useCart } from '../../context/CartContext';
 
 export default function OrderSuccess() {
   const { orderId } = useParams();
   const navigate = useNavigate();
+  const { setCart } = useCart();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -138,13 +140,30 @@ export default function OrderSuccess() {
 
         {/* Action Buttons */}
         <div className="flex gap-4">
-          <Button
-            size="large"
-            className="flex-1 bg-yellow-700 text-black font-bold hover:bg-yellow-600"
-            onClick={() => navigate('/store')}
-          >
-            Retry Payment
-          </Button>
+          {order.paymentStatus === 'pending' ? (
+            <Button
+              size="large"
+              className="flex-1 bg-yellow-700 text-black font-bold hover:bg-yellow-600"
+              onClick={() => {
+                const cartItems = order.items.map((item) => ({
+                  productId: item.productId,
+                  quantity: item.quantity,
+                }));
+                setCart(cartItems);
+                navigate('/checkout', { state: { retryOrderId: order._id } });
+              }}
+            >
+              Retry Payment
+            </Button>
+          ) : (
+            <Button
+              size="large"
+              className="flex-1 bg-green-600 font-bold hover:bg-green-500"
+              onClick={() => navigate('/store')}
+            >
+              Continue Shopping
+            </Button>
+          )}
 
           <Button
             size="large"
