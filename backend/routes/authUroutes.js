@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.post('/uregister', AuthUcontroller.registerUser);
 router.post('/ulogin', AuthUcontroller.loginUser);
+router.post('/google-login', AuthUcontroller.googleLogin);
+
 
 
 
