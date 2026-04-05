@@ -236,7 +236,7 @@ export default function Checkout() {
               <div className="max-h-60 overflow-y-auto pr-2 mb-4 custom-scrollbar">
                 {cart.map((item) => (
                   <div key={item.productId._id} className="flex justify-between items-start mb-4">
-                    <Space direction="vertical" size={0}>
+                    <Space orientation="vertical" size={0}>
                       <Text strong className="block">{item.productId.name}</Text>
                       <Text type="secondary" size="small">Qty: {item.quantity}</Text>
                     </Space>

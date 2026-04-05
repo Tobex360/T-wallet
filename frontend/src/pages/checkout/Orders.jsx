@@ -69,7 +69,7 @@ export default function Orders() {
       title: 'Order Details',
       key: 'orderInfo',
       render: (_, record) => (
-        <Space direction="vertical" size={0}>
+        <Space orientation="vertical" size={0}>
           <Text strong>#{record._id.substring(record._id.length - 8)}</Text>
           <Text type="secondary" size="small">{new Date(record.createdAt).toLocaleDateString()}</Text>
         </Space>
@@ -164,9 +164,9 @@ export default function Orders() {
         </div>
 
         <Card 
-          bordered={false} 
+          variant={false} 
           className="shadow-sm overflow-hidden" 
-          bodyStyle={{ padding: 0 }}
+          styles={{ body: { padding: 0 } }}
         >
           {orders.length === 0 ? (
             <div className="py-20">
@@ -196,7 +196,7 @@ export default function Orders() {
               rowKey="_id"
               pagination={{ 
                 pageSize: 8, 
-                position: ['bottomCenter'],
+                placement: ['bottomCenter'],
                 showTotal: (total) => `Total ${total} orders` 
               }}
               scroll={{ x: 800 }}
