@@ -84,7 +84,8 @@ function Alogin() {
 
           <div className="auth-footer">
             <Text type="secondary">
-              Don't have an account? <Link to='/aregister'>Sign up</Link>
+              {/* Don't have an account? <Link to='/aregister'>Sign up</Link> */}
+              For Authorized Personnel Only
             </Text>
           </div>
         </Form>

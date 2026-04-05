@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Landing from './pages/landing/Landing'
 import Uregister from './pages/auth/Uregister'
-import Aregister from './pages/auth/Aregister'
+// import Aregister from './pages/auth/Aregister'
 import Ulogin from './pages/auth/Ulogin'
 import Alogin from './pages/auth/Alogin'
 import Features from './pages/features/Features'
@@ -42,7 +42,7 @@ function App() {
           {/* Regular pages with Navbar and Footer */}
           <Route path='/' element={<MainLayout><Landing /></MainLayout>} />
           <Route path='/uregister' element={<MainLayout><Uregister /></MainLayout>} />
-          <Route path='/aregister' element={<MainLayout><Aregister /></MainLayout>} />
+          {/* <Route path='/aregister' element={<MainLayout><Aregister /></MainLayout>} /> */}
           <Route path='/ulogin' element={<MainLayout><Ulogin /></MainLayout>} />
           <Route path='/alogin' element={<MainLayout><Alogin /></MainLayout>} />
           <Route path='/register' element={<MainLayout><Uregister /></MainLayout>} />
