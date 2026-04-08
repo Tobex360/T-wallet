@@ -1,6 +1,5 @@
 import React from 'react'
 import bg from "../../assets/bg.jpg"
-import wallet from "../../assets/wallet-hero.svg"
 import line from "../../assets/Line 1.svg"
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from 'antd';
@@ -8,6 +7,7 @@ import rec1 from "../../assets/Rectangle 40.svg"
 import rec2 from "../../assets/Rectangle 41.svg"
 import rec3 from "../../assets/Rectangle 42.svg"
 import "../../App.css"
+import wallet from '../../assets/wallet-hero.svg'
 
 function Landing() {
   const navigate = useNavigate()
