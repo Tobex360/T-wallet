@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
+import { API_URL } from '../config/api';
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
@@ -14,7 +15,7 @@ export const CartProvider = ({ children }) => {
   const fetchCart = async (id) => {
     if (!id) return;
     try {
-      const response = await axios.get(`http://localhost:5000/cart/get/${id}`);
+      const response = await axios.get(`${API_URL}/cart/get/${id}`);
       setCart(response.data.items || []);
     } catch (error) {
       console.error('Failed to fetch cart', error);
@@ -60,7 +61,7 @@ export const CartProvider = ({ children }) => {
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/cart/add', {
+      const response = await axios.post(`${API_URL}/cart/add`, {
         userId,
         productId,
         quantity,
@@ -84,7 +85,7 @@ export const CartProvider = ({ children }) => {
       return;
     }
     try {
-      const response = await axios.put('http://localhost:5000/cart/update', {
+      const response = await axios.put(`${API_URL}/cart/update`, {
         userId,
         productId,
         quantity,
@@ -103,7 +104,7 @@ export const CartProvider = ({ children }) => {
       return;
     }
     try {
-      const response = await axios.delete('http://localhost:5000/cart/remove', {
+      const response = await axios.delete(`${API_URL}/cart/remove`, {
         data: { userId, productId },
       });
       setCart(response.data.items || []);
@@ -120,7 +121,7 @@ export const CartProvider = ({ children }) => {
       return;
     }
     try {
-      await axios.delete(`http://localhost:5000/cart/clear/${userId}`);
+      await axios.delete(`${API_URL}/cart/clear/${userId}`);
       setCart([]);
     } catch (error) {
       console.error('Failed to clear cart', error);

@@ -3,9 +3,11 @@ import { useCart } from '../../context/CartContext';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined, MinusOutlined, PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Button, Divider, Empty } from 'antd';
-import BackButton from '../../components/BackButton'
+import BackButton from '../../components/BackButton';
+import { API_URL } from '../../config/api';
 export default function Cart() {
   const { cart, updateQuantity, removeFromCart, getCartTotal, clearCart } = useCart();
+
 
   if (cart.length === 0) {
     return (
@@ -42,7 +44,7 @@ export default function Cart() {
                 {/* Product Image */}
                 <div className="w-24 h-24 md:w-32 md:h-32 bg-gray-100 rounded-xl overflow-hidden shrink-0">
                   <img 
-                    src={`http://localhost:5000/${item.productId.image}`}
+                    src={`${API_URL}/${item.productId.image}`}
                     alt={item.productId.name}
                     className="w-full h-full object-cover transition-transform group-hover:scale-110"
                   />

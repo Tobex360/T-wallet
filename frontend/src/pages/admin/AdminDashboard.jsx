@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Table, Button, Modal, Form, Input, InputNumber, Select, Tag, Space, Upload, message, Dropdown} from 'antd';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 import { PlusOutlined, DashboardOutlined, ShoppingOutlined, UserOutlined, UploadOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
@@ -43,7 +44,7 @@ export default function AdminDashboard() {
 
   const fetchProducts = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/products/getproducts');
+    const response = await axios.get(`${API_URL}/products/getproducts`);
     setProducts(response.data);
   } catch (error) {
     console.error('Failed to fetch products', error);
@@ -84,7 +85,7 @@ export default function AdminDashboard() {
           formData.append('image', uploadedFile);
         }
 
-        const response = await axios.put(`http://localhost:5000/products/update/${editingProduct._id}`, formData, {
+        const response = await axios.put(`${API_URL}/products/update/${editingProduct._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -107,7 +108,7 @@ export default function AdminDashboard() {
           formData.append('image', uploadedFile);
         }
 
-        const response = await axios.post('http://localhost:5000/products/create', formData, {
+        const response = await axios.post(`${API_URL}/products/create`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -139,7 +140,7 @@ export default function AdminDashboard() {
       cancelText: 'No',
       async onOk() {
         try {
-          await axios.delete(`http://localhost:5000/products/delete/${id}`);
+          await axios.delete(`${API_URL}/products/delete/${id}`);
           setProducts(prev => prev.filter(p => p._id !== id));
           message.success('Product deleted successfully');
         } catch (error) {
@@ -178,7 +179,7 @@ export default function AdminDashboard() {
       <div style={{ width: '60px', height: '60px', overflow: 'hidden', borderRadius: '4px' }}>
         {image ? (
           <img 
-            src={`http://localhost:5000/${image}`}  // Add the backend URL prefix
+            src={`${API_URL}/${image}`}  // Add the backend URL prefix
             alt="product" 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             onError={(e) => {

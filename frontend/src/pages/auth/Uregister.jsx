@@ -13,6 +13,7 @@ import {
   CarOutlined 
 } from '@ant-design/icons';
 import { GoogleLogin } from '@react-oauth/google';
+import { API_URL } from '../../config/api';
 
 
 const { Title, Text } = Typography;
@@ -30,7 +31,7 @@ function Uregister() {
         phonenumber: values.phonenumber,
         password: values.password,
       };
-      const response = await axios.post(`http://localhost:5000/user/uregister`, data);
+      const response = await axios.post(`${API_URL}/user/uregister`, data);
 
       message.success("you are succesfully registered");
       navigate('/ulogin')
@@ -46,7 +47,7 @@ function Uregister() {
 
     // Send token to backend
     const res = await axios.post(
-      `http://localhost:5000/user/google-login`,
+      `${API_URL}/user/google-login`,
       {
         token: credentialResponse.credential
       }

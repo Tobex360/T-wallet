@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Table, Button, Card, message, Spin, Empty, Tag, Space, Typography, Popconfirm, Tooltip } from 'antd';
 import { EyeOutlined, DeleteOutlined, ShoppingOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 
 const { Title, Text } = Typography;
 
@@ -22,7 +23,7 @@ export default function Orders() {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/orders/user/${userId}`);
+      const response = await axios.get(`${API_URL}/orders/user/${userId}`);
       setOrders(response.data);
     } catch (error) {
       message.error('Failed to load orders');
@@ -33,7 +34,7 @@ export default function Orders() {
 
   const handleDelete = async (orderId) => {
     try {
-      await axios.delete(`http://localhost:5000/orders/delete/${orderId}`);
+      await axios.delete(`${API_URL}/orders/delete/${orderId}`);
       message.success('Order removed from history');
       fetchOrders();
     } catch (error) {

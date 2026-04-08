@@ -5,6 +5,7 @@ import { Card, Button, message, Badge, Typography, Divider, Spin } from 'antd';
 import { ShoppingCartOutlined, FireOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import "../../App.css";
+import { API_URL } from '../../config/api';
 
 const { Meta } = Card;
 const { Title, Text } = Typography;
@@ -21,7 +22,7 @@ function Store() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/products/getproducts');
+      const response = await axios.get(`${API_URL}/products/getproducts`);
       setProducts(response.data);
     } catch (error) {
       console.error("Failed to fetch products", error);
@@ -95,7 +96,7 @@ function Store() {
                     <div className='overflow-hidden h-72 relative'>
                       <img
                         alt={product.name}
-                        src={`http://localhost:5000/${product.image}`}
+                        src={`${API_URL}/${product.image}`}
                         className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110'
                       />
                       {product.stock < 5 && (

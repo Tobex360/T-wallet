@@ -12,6 +12,7 @@ import {
   HomeOutlined, 
   CarOutlined 
 } from '@ant-design/icons';
+import { API_URL } from '../../config/api';
 
 const { Title, Text } = Typography;
 
@@ -28,7 +29,7 @@ function Aregister() {
         phonenumber: values.phonenumber,
         password: values.password,
       };
-      const response = await axios.post(`http://localhost:5000/admin/aregister`, data);
+      const response = await axios.post(`${API_URL}/admin/aregister`, data);
 
       message.success("you are succesfully registered");
       navigate('/alogin')

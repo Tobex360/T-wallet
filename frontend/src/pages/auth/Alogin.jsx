@@ -5,6 +5,7 @@ import { Input, Button, Form, message, Card, Typography, Divider } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import bg from "../../assets/bg.jpg"
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { API_URL } from '../../config/api'
 
 const { Title, Text } = Typography;
 
@@ -16,7 +17,7 @@ function Alogin() {
         username: values.username,
         password: values.password,
       };
-      const response = await axios.post(`http://localhost:5000/admin/alogin`, data);
+      const response = await axios.post(`${API_URL}/admin/alogin`, data);
       localStorage.removeItem('user');
       localStorage.setItem('admin', JSON.stringify(response.data));
       window.dispatchEvent(new Event('authChange'));

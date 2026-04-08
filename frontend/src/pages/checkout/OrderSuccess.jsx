@@ -4,6 +4,7 @@ import { Card, Button, Divider, Spin, message } from 'antd';
 import { CheckCircleOutlined, CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useCart } from '../../context/CartContext';
+import { API_URL } from '../../config/api';
 
 export default function OrderSuccess() {
   const { orderId } = useParams();
@@ -18,7 +19,7 @@ export default function OrderSuccess() {
 
   const fetchOrder = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/orders/${orderId}`);
+      const response = await axios.get(`${API_URL}/orders/${orderId}`);
       setOrder(response.data);
     } catch (error) {
       message.error('Failed to load order details');

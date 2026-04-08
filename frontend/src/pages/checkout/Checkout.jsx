@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, Input, Button, Card, message, Divider, Modal, Steps, Typography, Space, Badge } from 'antd';
 import { CreditCardOutlined, HomeOutlined, ShoppingCartOutlined, CheckCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 
 const { Title, Text } = Typography;
 
@@ -43,7 +44,7 @@ export default function Checkout() {
       } else if (retryOrderId) {
         (async () => {
           try {
-            const { data } = await axios.get(`http://localhost:5000/orders/${retryOrderId}`);
+            const { data } = await axios.get(`${API_URL}/orders/${retryOrderId}`);
             if (data.paymentStatus === 'pending') {
               setRetryCartAndOrder(data);
             }
@@ -62,7 +63,7 @@ export default function Checkout() {
     setProcessingPayment(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      const response = await axios.put('http://localhost:5000/orders/payment/update', {
+      const response = await axios.put(`${API_URL}/orders/payment/update`, {
         orderId: orderCreated.orderId,
         paymentId: `demo_${Date.now()}`,
         status: 'completed',
@@ -81,7 +82,7 @@ export default function Checkout() {
   const handleCreateOrder = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/orders/create', {
+      const response = await axios.post(`${API_URL}/orders/create`, {
         userId,
         shippingAddress: values,
       });
@@ -96,7 +97,7 @@ export default function Checkout() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/orders/delete/${id}`);
+      await axios.delete(`${API_URL}/orders/delete/${id}`);
       setOrderCreated(null);
       message.info('Shipping details unlocked for editing');
     } catch (error) {
@@ -108,7 +109,7 @@ export default function Checkout() {
   if (orderCreated?.orderId) {
     try {
       // Delete the pending order so it doesn't stay in the DB
-      await axios.delete(`http://localhost:5000/orders/delete/${orderCreated.orderId}`);
+      await axios.delete(`${API_URL}/orders/delete/${orderCreated.orderId}`);
     } catch (error) {
       console.error('Error clearing pending order:', error);
       // We still navigate even if delete fails, but we log the error

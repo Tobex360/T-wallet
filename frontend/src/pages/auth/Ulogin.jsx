@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import bg from "../../assets/bg.jpg"
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { GoogleLogin } from '@react-oauth/google';
+import { API_URL } from '../../config/api'
 
 
 const { Title, Text } = Typography;
@@ -18,7 +19,7 @@ function Ulogin() {
         username: values.username,
         password: values.password,
       };
-      const response = await axios.post(`http://localhost:5000/user/ulogin`, data);
+      const response = await axios.post(`${API_URL}/user/ulogin`, data);
       localStorage.removeItem('admin');
       localStorage.setItem('user', JSON.stringify(response.data));
       // localStorage.setItem("userId", response.data.user._id);
@@ -47,7 +48,7 @@ function Ulogin() {
 
     // Send token to backend
     const res = await axios.post(
-      `http://localhost:5000/user/google-login`,
+      `${API_URL}/user/google-login`,
       {
         token: credentialResponse.credential
       }
