@@ -7,7 +7,7 @@ import rec1 from "../../assets/Rectangle 40.svg"
 import rec2 from "../../assets/Rectangle 41.svg"
 import rec3 from "../../assets/Rectangle 42.svg"
 import "../../App.css"
-import wallet from '../../assets/wallet-hero.svg'
+import wallet from '../../assets/Wallet-Hero.svg'
 
 function Landing() {
   const navigate = useNavigate()
