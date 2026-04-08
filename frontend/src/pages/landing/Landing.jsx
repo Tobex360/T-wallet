@@ -1,6 +1,6 @@
 import React from 'react'
 import bg from "../../assets/bg.jpg"
-import wallet from "../../assets/wallet hero.svg"
+import wallet from "../../assets/Wallet-hero.svg"
 import line from "../../assets/Line 1.svg"
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from 'antd';
