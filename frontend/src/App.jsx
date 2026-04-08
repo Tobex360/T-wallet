@@ -14,17 +14,17 @@ import OrderSuccess from './pages/checkout/OrderSuccess'
 import Orders from './pages/checkout/Orders'
 import Navebar from './components/Navebar'
 import Footer from './components/Footer'
-import Bct from './components/bct'
 import { CartProvider } from './context/CartContext'
+import BackToTop from './components/BackToTop'
 
 // Layout for regular pages (with navbar and footer)
 function MainLayout({ children }) {
   return (
     <>
       <Navebar />
-      {children}
-      <Bct />
+      {children}      
       <Footer />
+      <BackToTop />
     </>
   )
 }
