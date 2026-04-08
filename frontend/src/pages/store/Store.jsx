@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
-import hero from '../../assets/frame 21.jpg';
+import hero from '../../assets/Frame 21.jpg';
 import { Card, Button, message, Badge, Typography, Divider, Spin } from 'antd';
 import { ShoppingCartOutlined, FireOutlined } from '@ant-design/icons';
 import axios from 'axios';
