@@ -29,11 +29,24 @@ app.use('/uploads', express.static('uploads'));
 app.use(cors());
 app.use(express.json());
 
+//health route for uptime robot
+
+app.get('/api/health',(req, res)=>{
+    res.status(200).json({ status: 'ok' })
+})
+
+
+
 app.use('/user',authUroutes);
 app.use('/admin',authAroutes);
 app.use('/products',productRoutes);
 app.use('/cart',cartRoutes);
 app.use('/orders',orderRoutes);
+
+
+app.listen(PORT,()=>{
+    console.log(`The server started at ${PORT}`)
+});
 
 mongoose.connect(DB_URL).then((result)=>{
     console.log('Connected to mongodb');
@@ -41,6 +54,3 @@ mongoose.connect(DB_URL).then((result)=>{
     console.log(err);
 })
 
-app.listen(PORT,()=>{
-    console.log(`The server started at ${PORT}`)
-});
